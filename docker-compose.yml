@@ -1,0 +1,32 @@
+version: "3.7"
+# define all services
+services:
+  mysql:
+    image: "mysql:drupal"
+    restart: "no"
+    container_name: mysql_drupal
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    privileged: "true"
+    build:
+      context: ./
+      dockerfile: dockfile/mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=Ab@123456
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=drupal
+      - MYSQL_PASSWORD=Ab123456@
+
+  httpd:
+    image: "httpd:drupal"
+    restart: "no"
+    container_name: httpd_drupal
+    ports:
+      - "8080:80"
+    privileged: "true"
+    build:
+      context: ./
+      dockerfile: dockfile/httpd
+    volumes:
+      - "./data/source:/var/www/html"
