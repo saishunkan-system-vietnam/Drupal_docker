@@ -1,8 +1,8 @@
 # Drupal_docker
 Drupal 8 + MariaDB 10.4 + PHP7.3
 
-run
+#run
 docker-compose up --build -d
 
-remove
+#remove
 docker-compose down
