@@ -17,6 +17,9 @@ services:
       - MYSQL_ROOT_HOST=%
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=Ab123456@
+    networks:
+      drunet:
+        ipv4_address: 172.21.128.2
 
   httpd:
     image: "httpd:drupal"
@@ -30,9 +33,12 @@ services:
       dockerfile: dockfile/httpd
     volumes:
       - "./data/source:/var/www/html"
+    networks:
+      drunet:
+        ipv4_address: 172.21.128.3
   ftpd_server:
     image: stilliard/pure-ftpd
-    container_name: pure-ftpd
+    container_name: ftpd_server
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
@@ -44,4 +50,13 @@ services:
       FTP_USER_NAME: ssv
       FTP_USER_PASS: ssv@20150601
       FTP_USER_HOME: /home/username
+    networks:
+      drunet:
+        ipv4_address: 172.21.128.4
     restart: always
+networks:
+  drunet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
